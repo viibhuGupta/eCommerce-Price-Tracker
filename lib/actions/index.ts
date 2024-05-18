@@ -6,8 +6,11 @@ export async function scrapeAndStoreProduct (productURL : string){
     if (!productURL) {
         return
     }
+
     try {
-        scrapeAmazonProduct(productURL);
+        const scrapedProduct = await scrapeAmazonProduct(productURL);
+
+        if(!scrapedProduct) return;
 
         
     } catch (error : any) {

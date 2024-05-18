@@ -1,5 +1,7 @@
 import axios from "axios"
 import * as cheerio from 'cheerio'
+import { extractCurrency, extractDescription, extractPrice } from "../utils";
+import { start } from "repl";
 
 export async function scrapeAmazonProduct (url : string){
     if(!url ) return;
@@ -32,8 +34,58 @@ export async function scrapeAmazonProduct (url : string){
         // Extract the product title 
         const title = $('#productTitle').text().trim();
 
-        console.log({title});
-        
+        const currentPrice = extractPrice(
+            $('.a-price-symbol .a-price-whole'),
+            $('.a-price .a-price-whole  .priceToPay '),
+            $('.priceToPay span.a-price-whole'),
+            $('a.size.base.a-color-price '),
+            $('.a-button-selected .a-color-base '),
+            $(' span.a-price-whole '),
+        );
+
+        const orginalPrice = extractPrice(
+            $('#priceblock_ourprice'),
+            $('.a-price.a-text-price span.a-offscreen'),
+            $('#listPrice'),
+            $('#prcoloiceblock_dealprice'),
+            $('.a-size-base.a-r-price'),
+        );
+
+        const outofStock = $('#availability span').text().trim().toLocaleLowerCase() === 'currently unavailable';
+
+        const images = 
+            $('#imgBlkFront').attr('data-a-dynamic-image') ||
+            $('#landingImage').attr('data-a-dynamic-image')||
+            '{}';
+
+        const imageUrls = Object.keys(JSON.parse(images));
+ 
+        const currency = extractCurrency($('.a-price-symbol'))
+
+        const discountRate  =  $('.savingsPercentage').text().replace(/[-%]/g,"");
+
+        const description = extractDescription($);
+
+
+        const data = {
+            url,
+            currency : currency || "₹",
+            images : imageUrls[0],
+            title,
+            currentPrice : Number(currentPrice) || Number(orginalPrice),
+            orginalPrice : Number(orginalPrice) || Number(currentPrice),
+            priceHistory : [],
+            discountRate : Number(discountRate),
+            category : 'category',
+            reviewsCount:100,
+            stars : 4.5,
+            isOutOfStock : outofStock,
+            description ,
+            lowestPrice : Number(currentPrice) || Number(orginalPrice),
+            highestPrice : Number(orginalPrice) || Number(currentPrice),
+            averagePrice : Number(currentPrice) || Number(orginalPrice),
+        }
+        return data;
         
 
         
