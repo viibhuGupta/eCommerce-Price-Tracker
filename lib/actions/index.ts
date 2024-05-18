@@ -1,5 +1,5 @@
 'use server'
-
+import { revalidatePath } from "next/cache";
 import Product from "../models/product.model";
 import { connectToDB } from "../mongoose";
 import { scrapeAmazonProduct } from "../scraper";
@@ -43,6 +43,7 @@ export async function scrapeAndStoreProduct (productURL : string){
             { upsert : true , new : true}
         )
 
+        revalidatePath (`/products/${newProduct._id}`);
         
     } catch (error : any) {
         throw new Error (`Failed to Create/upd ate Product : ${error.message}`)
