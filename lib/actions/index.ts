@@ -37,7 +37,7 @@ export async function scrapeAndStoreProduct (productURL : string){
                 averagePrice : getAveragePrice(updatePriceHistory),
 
             }
-            console.log(product); //  here i am getting all the details 
+            //console.log(product); //  here i am getting all the details 
         }
 
         const newProduct = await Product.findOneAndUpdate(
@@ -46,7 +46,7 @@ export async function scrapeAndStoreProduct (productURL : string){
             { upsert : true , new : true}
         )
 
-           // console.log(newProduct); // here i am not getting all details
+        //    console.log(newProduct); // here i am not getting all details
 
         revalidatePath (`/products/${newProduct._id}`);
 

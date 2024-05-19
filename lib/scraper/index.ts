@@ -1,7 +1,7 @@
+"use server"
 import axios from "axios"
 import * as cheerio from 'cheerio'
 import { extractCurrency, extractDescription, extractPrice } from "../utils";
-import { start } from "repl";
 
 export async function scrapeAmazonProduct (url : string){
     if(!url ) return;
@@ -13,11 +13,11 @@ export async function scrapeAmazonProduct (url : string){
     const username = String(process.env.BRIGHT_DATA_USERNAME);
     const password = String(process.env.BRIGHT_DATA_PASSWORD);
     const port = 22225;
-    const session_id = (1000000 * Math.random()) | 0;
+    const session_id = (10000000 * Math.random()) | 0;
 
     const options = {
         auth : {
-            username : `${username} -session-${session_id}`,
+            username : `${username}-session-${session_id}`,
             password,
         },
         host : 'brd.superproxy.io',
@@ -27,7 +27,7 @@ export async function scrapeAmazonProduct (url : string){
     }
 
     try {
-        //  Fetch the Product Page
+        //  Fetch the Product ProductDetails
         const response = await axios.get(url, options);
         const $ = cheerio.load(response.data);
 
@@ -35,15 +35,19 @@ export async function scrapeAmazonProduct (url : string){
         const title = $('#productTitle').text().trim();
 
         const currentPrice = extractPrice(
-            $('.a-price-symbol .a-price-whole'),
-            $('.a-price .a-price-whole  .priceToPay '),
+            // $('.a-price-symbol .a-price-whole'),
+            // $('.a-price .a-price-whole  .priceToPay '),
+            // $('.priceToPay span.a-price-whole'),
+            // $('a.size.base.a-color-price '),
+            // $('.a-button-selected .a-color-base '),
+            // $(' span.a-price-whole '),
+
             $('.priceToPay span.a-price-whole'),
-            $('a.size.base.a-color-price '),
-            $('.a-button-selected .a-color-base '),
-            $(' span.a-price-whole '),
+            $('.a.size.base.a-color-price'),
+            $('.a-button-selected .a-color-base'),
         );
 
-        const orginalPrice = extractPrice(
+        const originalPrice = extractPrice(
             $('#priceblock_ourprice'),
             $('.a-price.a-text-price span.a-offscreen'),
             $('#listPrice'),
@@ -51,7 +55,7 @@ export async function scrapeAmazonProduct (url : string){
             $('.a-size-base.a-r-price'),
         );
 
-        const outofStock = $('#availability span').text().trim().toLocaleLowerCase() === 'currently unavailable';
+        const outOfStock = $('#availability span').text().trim().toLocaleLowerCase() === 'currently unavailable';
 
         const images = 
             $('#imgBlkFront').attr('data-a-dynamic-image') ||
@@ -66,25 +70,27 @@ export async function scrapeAmazonProduct (url : string){
 
         const description = extractDescription($);
 
-
+        
+        // Construct data object with scraped information   
         const data = {
             url,
-            currency : currency || "₹",
-            images : imageUrls[0],
+            currency: currency || '$',
+            image: imageUrls[0], // chnage here [0]
             title,
-            currentPrice : Number(currentPrice) || Number(orginalPrice),
-            orginalPrice : Number(orginalPrice) || Number(currentPrice),
-            priceHistory : [],
-            discountRate : Number(discountRate),
-            category : 'category',
+            currentPrice: Number(currentPrice) || Number(originalPrice),
+            originalPrice: Number(originalPrice) || Number(currentPrice),
+            priceHistory: [],
+            discountRate: Number(discountRate),
+            category: 'category',
             reviewsCount:100,
-            stars : 4.5,
-            isOutOfStock : outofStock,
-            description ,
-            lowestPrice : Number(currentPrice) || Number(orginalPrice),
-            highestPrice : Number(orginalPrice) || Number(currentPrice),
-            averagePrice : Number(currentPrice) || Number(orginalPrice),
+            stars: 4.5,
+            isOutOfStock: outOfStock,
+            description,
+            lowestPrice: Number(currentPrice) || Number(originalPrice),
+            highestPrice: Number(originalPrice) || Number(currentPrice),
+            averagePrice: Number(currentPrice) || Number(originalPrice),
         }
+        
         return data;
         
 
