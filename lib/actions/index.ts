@@ -11,6 +11,7 @@ export async function scrapeAndStoreProduct (productURL : string){
     }
 
     try {
+
         connectToDB();
 
         const scrapedProduct = await scrapeAmazonProduct(productURL);
@@ -27,6 +28,7 @@ export async function scrapeAndStoreProduct (productURL : string){
                 { price : scrapedProduct.currentPrice},
             ]
 
+
             product = {
                 ...scrapedProduct,
                 priceHistory : updatePriceHistory,
@@ -35,6 +37,7 @@ export async function scrapeAndStoreProduct (productURL : string){
                 averagePrice : getAveragePrice(updatePriceHistory),
 
             }
+            console.log(product); //  here i am getting all the details 
         }
 
         const newProduct = await Product.findOneAndUpdate(
@@ -43,9 +46,42 @@ export async function scrapeAndStoreProduct (productURL : string){
             { upsert : true , new : true}
         )
 
+           // console.log(newProduct); // here i am not getting all details
+
         revalidatePath (`/products/${newProduct._id}`);
+
         
     } catch (error : any) {
         throw new Error (`Failed to Create/upd ate Product : ${error.message}`)
+    }
+}
+
+// fetch the product 
+export async function getProductById( productId : string){
+    try {
+    connectToDB();
+
+    const product = await Product.findOne({ _id : productId});
+
+    if(!product) return null;
+
+    return product;
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// get all products
+export async function getAllProducts(){
+    try {
+        connectToDB();
+
+        const products = await Product.find();
+
+        return products;
+
+    } catch (error) {
+        console.log(error)
     }
 }
