@@ -1,5 +1,6 @@
 import PriceInfoCard from "@/components/PriceInfoCard";
-import { getProductById } from "@/lib/actions";
+import ProductCard from "@/components/ProductCard";
+import { getProductById, getSimilarProducts } from "@/lib/actions";
 import { formatNumber } from "@/lib/utils";
 import { Product } from "@/types";
 import Image from "next/image";
@@ -14,6 +15,8 @@ const ProductDetails = async ({ params: { id } }: Props) => {
   const product: Product = await getProductById(id);
 
   if (!product) redirect("/");
+
+  const similarProducts = await getSimilarProducts(id);
 
   return (
     <div className="product-container">
@@ -166,6 +169,65 @@ const ProductDetails = async ({ params: { id } }: Props) => {
               />
             </div>
           </div>
+
+          <div className="flex flex-col gap-16 ">
+            <div className="flex flex-col gap-5 ">
+              <h3 className=" text-2xl font-semibold text-secondary">
+                Product Details
+                </h3>
+
+
+                <div className=" flex flex-col gap-4">
+                  {
+                    product?.description?.split('/n')
+                  }
+                </div>
+
+            </div>
+
+
+                  <button className=" btn w-fit mx-auto flex item-center justify-center min-w-[200px] gap-3">
+                    <Image
+                    src="/assets/icons/bag.svg"
+                    alt="cart-bag"
+                    height={22}
+                    width={22}
+
+                    />
+
+                   <Link 
+                   href='/'
+                   className="text-base text-white"
+                   >
+                   Buy Now
+                   </Link>
+
+
+                  </button>
+          </div>
+
+          {
+            similarProducts && similarProducts?.length > 0 && (
+              <div className="py-4 flex flex-col w-full">
+                <p className=" section-text">
+                  Similar Products
+                </p>
+
+                <div className="flex  flex-wrap gap-10
+                mt-7 w-full">
+                  {
+                    similarProducts.map(
+                      (product) => (
+                       <div className="">
+                        <ProductCard key={product._id} product={product}/>
+                       </div>
+                      )
+                    )
+                  }
+                </div>
+              </div>
+            )
+          }
         </div>
       </div>
     </div>

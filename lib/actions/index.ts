@@ -81,7 +81,26 @@ export async function getAllProducts(){
 
         return products;
 
-    } catch (error) {
+    } catch (error) { 
         console.log(error)
+    }
+}
+
+export async function getSimilarProducts(productId : string){
+    try {
+        connectToDB();
+
+        const currentProduct = await Product.findById(productId);
+
+        if(!currentProduct) return null;
+
+        const similarProducts = await Product.find({
+            _id : { $ne : productId}
+        }).limit(3);
+
+        return similarProducts;
+        
+    } catch (error) {
+        
     }
 }
