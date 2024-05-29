@@ -23,7 +23,7 @@ const Navbar = () => {
     <>
     <header className='w-full '>
         <nav className='flex justify-between item-center px-6 md:px-20 py-4'>
-            <Link className='flex' href="#/">
+            <Link className='flex' href="/">
                 <Image 
                 src="/assets/icons/logo.svg"
                 width={20}

@@ -5,8 +5,11 @@ import { Fragment } from 'react'
 import Image from 'next/image'
 import { FormEvent } from 'react'
 
+interface Props {
+  productId : string
+}
 
-const Modals = () => {
+const Modals = ({productId } : Props) => {
 
   let [isOpen, setIsOpen] = useState(true)
   const [isSubmitting , setIsSubmitting] = useState(false);
@@ -24,7 +27,7 @@ const Modals = () => {
     e.preventDefault();
     setIsSubmitting (true);
 
-    // await ( adduserEmailToProduct , email) ;
+
     setIsSubmitting (false)
     setEmail('');
     closeModal();

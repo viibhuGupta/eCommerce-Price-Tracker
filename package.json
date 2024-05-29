@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "nodemailer": "^6.9.5",
+    "@headlessui/react": "^1.7.17",
     "axios": "^1.6.8",
     "cheerio": "1.0.0-rc.12",
     "mongoose": "^8.4.0",
