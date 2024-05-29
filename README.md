@@ -1,3 +1,11 @@
-# Hy Guys i am facing the problem that In DB Image and Descreption is not storing other than all the details are storing 
+# Price Wallah  
+
+# - To clone this Git repo use below command
+## - git clone https://github.com/viibhuGupta/eCommerce-Price-Tracker.git && cd eCommerce-Price-Tracker && npm i
+
+
+
+
+
 
 
