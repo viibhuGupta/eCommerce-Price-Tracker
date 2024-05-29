@@ -31,7 +31,7 @@ const Navbar = () => {
                 alt='logo'
                 
                 />
-                <p className='font-spaceGrotesk text-[21px] font-bold'>Price<span className='text-rose-700'>wise</span> </p>
+                <p className='font-spaceGrotesk text-[21px] font-bold'>Price<span className='text-rose-700'>Wallah</span> </p>
             </Link>
 
             <div className="flex items-center gap-4">

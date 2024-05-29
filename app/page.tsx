@@ -26,7 +26,7 @@ const  Home =  async () =>  {
 
           <h1 className="mt-4 text-6xl font-bold leading-[72px] tracking-[-1.2px] text-gray-900 ">
             Unlease the power of 
-            <span className="text-rose-600"> PriseWise</span>      
+            <span className="text-rose-600"> PriseWallah</span>      
             </h1>
             <p className="mt-6">
               Powerful, self-serve product and growth analytics to help you, convert, engage, and retain more.
