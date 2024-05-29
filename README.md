@@ -10,6 +10,7 @@
 ![Screenshot_20240529_155214](https://github.com/viibhuGupta/eCommerce-Price-Tracker/assets/108029219/1950e200-8df6-4d28-819a-a902ad571af7)
 
 
+![Screenshot_20240529_160203](https://github.com/viibhuGupta/eCommerce-Price-Tracker/assets/108029219/b99dbe1d-9e29-41e3-b99d-2893ff08dd11)
 
 
 
