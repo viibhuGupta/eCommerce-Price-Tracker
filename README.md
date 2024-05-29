@@ -5,10 +5,9 @@
 
 ## Preview Of Website
 ![Hero Section](https://github.com/viibhuGupta/eCommerce-Price-Tracker/assets/108029219/3da593ec-7170-4d54-9e67-6fa795c6c389)
-![Trending Section](https://github![Screenshot_20240529_160203](https://github.com/viibhuGupta/eCommerce-Price-Tracker/assets/108029219/d5fb4a44-75db-458a-8e49-aa9e13cf6632)
-.com/viibhuGupta/eCommerce-Price-Tracker/assets/108029219/0fb08b9b-2aa5-4db3-af85-1cebb214eb6f)
 
 
+![Screenshot_20240529_155214](https://github.com/viibhuGupta/eCommerce-Price-Tracker/assets/108029219/1950e200-8df6-4d28-819a-a902ad571af7)
 
 
 
