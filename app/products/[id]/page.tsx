@@ -22,13 +22,14 @@ const ProductDetails = async ({ params: { id } }: Props) => {
   return (
     <div className="product-container ">
       <div className="flex gap-28 xl:flex-row flex-col ">
-        <div className="product-image ">
+        <div className="product-image">
           <Image
             src={product.image}
             alt={product.title}
-            height={500}
+            height={100}
             width={680}
-            className="mx-auto"
+            
+            className="mx-auto "
           />
         </div>
 
@@ -138,7 +139,6 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                 value={`${product.currency} ${formatNumber(
                   product.currentPrice
                 )}`}
-                
               />
 
               <PriceInfoCard
@@ -147,7 +147,6 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                 value={`${product.currency} ${formatNumber(
                   product.averagePrice
                 )}`}
-               
               />
 
               <PriceInfoCard
@@ -156,7 +155,6 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                 value={`${product.currency} ${formatNumber(
                   product.highestPrice
                 )}`}
-                
               />
 
               <PriceInfoCard
@@ -165,77 +163,67 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                 value={`${product.currency} ${formatNumber(
                   product.lowestPrice
                 )}`}
-                
-
               />
             </div>
           </div>
 
-
-         
-            <Modals productId={id}/>
-         
+          <Modals productId={id} />
 
           <div className="flex flex-col gap-16 ">
             <div className="flex flex-col gap-5 ">
-              <h3 className=" text-2xl font-semibold text-secondary">
+              <h3 className=" text-2xl font-semibold text-secondary pt-6">
                 Product Details
-                </h3>
+              </h3>
 
-
-                <div className=" flex flex-col gap-4">
-                  {
-                    product?.description?.split('/n')
-                  }
-                </div>
-
+              <div className=" flex flex-col gap-4  ">
+                {product?.description?.split("/n").map((line, index) => (
+                  <React.Fragment key={index}>
+                    {line.split(" ").slice(0, 150).join(" ")}
+                    <br />
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
 
+            <button className=" btn w-fit mx-auto flex item-center justify-center min-w-[200px] gap-3">
+              <Image
+                src="/assets/icons/bag.svg"
+                alt="cart-bag"
+                height={22}
+                width={22}
+              />
 
-                  <button className=" btn w-fit mx-auto flex item-center justify-center min-w-[200px] gap-3">
-                    <Image
-                    src="/assets/icons/bag.svg"
-                    alt="cart-bag"
-                    height={22}
-                    width={22}
-
-                    />
-
-                   <Link 
-                   href='/'
-                   className="text-base text-white"
-                   >
-                   Buy Now
-                   </Link>
-
-
-                  </button>
+              <Link href="/" className="text-base text-white">
+                Buy Now
+              </Link>
+            </button>
           </div>
 
-          {
-            similarProducts && similarProducts?.length > 0 && (
-              <div className="py-4 flex flex-col w-full">
-                <p className=" section-text">
-                  Similar Products
-                </p>
-
-                <div className="flex flex-wrap gap-10
-                mt-7 w-full">
-                  {
-                    similarProducts.map(
-                      (product) => (
-                       <div className="">
-                        <ProductCard key={product._id} product={product}/>
-                       </div>
-                      )
-                    )
-                  }
-                </div>
-              </div>
-            )
-          }
+         
         </div>
+
+
+      
       </div>
+
+      <div className="flex justify-center items-center text-center">
+ {similarProducts && similarProducts?.length > 0 && (
+            <div className="py-4 flex md:flex-col flow-row w-full ">
+              <p className=" section-text">Similar Products</p>
+
+              <div
+                className="flex flex-col md:flex-row  gap-10
+                mt-7 max-w-[15rem]  items-center"
+              >
+                {similarProducts.map((product) => (
+                  <div className="">
+                    <ProductCard key={product._id} product={product} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
     </div>
   );
 };
